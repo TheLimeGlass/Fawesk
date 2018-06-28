@@ -1,0 +1,17 @@
+# skript-time - A Skript addon dedicated to making time handling better.
+
+# The version is to help the addon determine which version this config is. Please don't modify this value.
+version: "1.0.0"
+
+# Print additional information in the console. The developers may ask you to enable this when reporting an error.
+debug: false
+
+# Broadcast all the syntax that didn't register to the console.
+NotRegisteredSyntax: false
+
+# Converts the Enum's into proper english enums like `FADE_TYPE` will be `fade type` or `fading type`
+# as defined in the english.lang of the jar. (Which can be edited, they parent aliases parsing)
+UseEnglishEnums: true
+
+# Disables the message saying the addon was enabled.
+DisableRegisteredInfo: false

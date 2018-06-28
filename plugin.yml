@@ -1,0 +1,6 @@
+name: skript-time
+author: LimeGlass
+description: A Skript addon dedicated to making time handling better.
+version: 1.0.0
+main: me.limeglass.time.Time
+depend: [Skript]

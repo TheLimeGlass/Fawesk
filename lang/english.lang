@@ -1,0 +1,21 @@
+version: 1.0.0
+
+#@an makes the pattern allow for `an`.
+
+types:
+	month: month, months
+	
+# Represents a month in the year.
+months:
+	january: january
+	february: february
+	march: march
+	april: april
+	may: may
+	june: june
+	july: july
+	august: august
+	september: september
+	october: october
+	november: november
+	december: december
