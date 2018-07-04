@@ -10,9 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 import org.bukkit.plugin.java.JavaPlugin;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.expressions.base.PropertyExpression;
 import ch.njol.skript.lang.Condition;

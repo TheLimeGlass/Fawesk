@@ -28,7 +28,7 @@ import me.limeglass.fawesk.utils.annotations.Patterns;
 @Description("Returns the baseblocks between two locations. This is not designed to SET blocks, only to get the ItemTypes of blocks within, locations are not included.\n" +
 		"WorldEdit/FAWE saves block objects with locations internally for performance.")
 @Patterns({"[(all [[of] the]|the)] [fawe[sk]] item[[ ]type][s] from %location% [(on|towards)] %direction%",
-		"[(all [[of] the]|the)] [fawe[sk]] item[[ ]type][s] (within|from) %worldeditregion%",
+		"[(all [[of] the]|the)] [fawe[sk]] item[[ ]type][s] (within|from|of|in) [cuboid[[ ]region[s]]] %worldeditregion%",
 		"[(all [[of] the]|the)] [fawe[sk]] item[[ ]type][s] (within|between|from) %block% (and|to) %block%"})
 public class ExprItemTypes extends FaweskExpression<ItemType> {
 	

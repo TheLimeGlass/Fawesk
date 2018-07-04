@@ -21,7 +21,7 @@ public class Fawesk extends JavaPlugin {
 	
 	private static Map<String, FileConfiguration> files = new HashMap<String, FileConfiguration>();
 	private String packageName = "me.limeglass.fawesk";
-	private static String prefix = "&8[&cfawesk&8] &7";
+	private static String prefix = "&8[&cFawesk&8] &7";
 	private String nameplate = "[Fawesk] ";
 	private static Fawesk instance;
 	private SkriptAddon addon;

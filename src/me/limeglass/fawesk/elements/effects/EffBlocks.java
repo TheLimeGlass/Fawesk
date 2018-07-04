@@ -34,7 +34,7 @@ import me.limeglass.fawesk.utils.annotations.Patterns;
 @Description("Sets all the blocks within two points to a block/itemtype.")
 @Patterns({"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) (within|between|from) %block% (and|to) %block% to %string/itemtypes%",
 		"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) from %location% [(on|towards)] %direction% to %string/itemtypes%",
-		"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) (within|from) %worldeditregion% to %string/itemtypes%"})
+		"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) (within|from) [cuboid[[ ]region[s]]] %worldeditregion% to %string/itemtypes%"})
 public class EffBlocks extends FaweskEffect {
 
 	@SuppressWarnings("deprecation")

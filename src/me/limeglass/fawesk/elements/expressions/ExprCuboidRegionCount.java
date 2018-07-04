@@ -1,13 +1,7 @@
 package me.limeglass.fawesk.elements.expressions;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.bukkit.event.Event;
 
-import com.boydti.fawe.FaweAPI;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.regions.CuboidRegion;
 
 import ch.njol.skript.doc.Description;
@@ -25,13 +19,7 @@ public class ExprCuboidRegionCount extends FaweskPropertyExpression<CuboidRegion
 	@Override
 	protected Number[] get(Event event, CuboidRegion[] cuboids) {
 		for (CuboidRegion cuboid : cuboids) {
-			EditSession session = FaweAPI.getEditSessionBuilder(cuboid.getWorld()).autoQueue(true).build();
-			Set<BaseBlock> blocks = session.getBlockDistributionWithData(cuboid)
-				.parallelStream()
-				.map(block -> block.getID())
-				.collect(Collectors.toSet());
-			collection.add(session.countBlocks(cuboid, blocks));
-			session.flushQueue();
+			collection.add(cuboid.getHeight() * cuboid.getLength() * cuboid.getWidth());
 		}
 		return collection.toArray(new Number[collection.size()]);
 	}

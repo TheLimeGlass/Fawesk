@@ -35,7 +35,7 @@ import me.limeglass.fawesk.utils.annotations.Patterns;
 @Name("Fawesk - BaseBlocks between different")
 @Description("Returns the different baseblocks between two locations. Returning only one of each item.")
 @Patterns({"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks from %location% [(on|towards)] %direction%",
-		"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks (within|from) %worldeditregion%",
+		"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks (within|from) [cuboid[[ ]region[s]]] %worldeditregion%",
 		"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks (within|between|from) %block% (and|to) %block%"})
 public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 	

@@ -41,6 +41,7 @@ public class ExprCuboidRegion extends FaweskExpression<CuboidRegion> {
 	
 	@Override
 	protected CuboidRegion[] get(Event event) {
+		if (areNull(event)) return null;
 		Object from = expressions.get(0).getSingle(event);
 		Object to = expressions.get(1).getSingle(event);
 		

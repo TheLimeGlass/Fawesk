@@ -1,4 +1,5 @@
 apply plugin: 'java-library'
+apply plugin: 'java'
 apply plugin: 'eclipse'
 
 jar.archiveName = project.name + '.jar'
@@ -6,6 +7,14 @@ jar.archiveName = project.name + '.jar'
 configurations {
     shade
     compile.extendsFrom shade
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src"]
+        }
+    }
 }
 
 repositories {
@@ -54,10 +63,13 @@ dependencies {
 	
 	//FAWE
 	compile (group: 'com.boydti', name: 'fawe-api', version: 'latest')
+	compile (group: 'com.boydti', name: 'fawe-bukkit', version: 'latest')
 	
 	//WorldEdit
 	compile (group: 'com.sk89q.worldedit', name: 'worldedit-bukkit', version: '6.1.5')
 	compile (group: 'com.sk89q.worldedit', name: 'worldedit-core', version: '6.1.4-SNAPSHOT')
+	
+	compile files("FAWE.jar")
 }
 
 jar {
