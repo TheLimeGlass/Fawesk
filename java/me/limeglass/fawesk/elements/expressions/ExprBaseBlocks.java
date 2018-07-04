@@ -28,10 +28,10 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.util.Direction;
 import ch.njol.util.coll.CollectionUtils;
-import me.limeglass.fawesk.Fawesk;
 import me.limeglass.fawesk.lang.FaweskExpression;
 import me.limeglass.fawesk.utils.TypeClassInfo;
 import me.limeglass.fawesk.utils.annotations.Patterns;
+
 @Name("Fawesk - BaseBlocks between different")
 @Description("Returns the different baseblocks between two locations. Returning only one of each item.")
 @Patterns({"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks from %location% [(on|towards)] %direction%",
@@ -40,7 +40,6 @@ import me.limeglass.fawesk.utils.annotations.Patterns;
 public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 	
 	static {
-		Fawesk.consoleMessage("Hello?");
 		Converters.registerConverter(BaseBlock.class, ItemType.class, new Converter<BaseBlock, ItemType>() {
 			@Override
 			@Nullable

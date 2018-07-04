@@ -1,7 +1,7 @@
 # Fawesk - A Skript addon dedicated to hooking into FAWE.
 
 # The version is to help the addon determine which version this config is. Please don't modify this value.
-version: "1.0.0-ALPHA"
+version: "1.0.0"
 
 # Print additional information in the console. The developers may ask you to enable this when reporting an error.
 debug: false
