@@ -18,7 +18,7 @@ import me.limeglass.fawesk.utils.annotations.PropertiesAddition;
 
 @Name("Fawesk - Cuboid region count")
 @Description("Returns the size/amount of items in the Cuboid region(s).")
-@Properties({"cuboidregions", "(size|count)", "{1}[(all [[of] the]|the)]"})
+@Properties({"cuboidregions", "(size|count|amount)", "{1}[(all [[of] the]|the)]"})
 @PropertiesAddition("cuboid[[ ]region[s]]")
 public class ExprCuboidRegionCount extends FaweskPropertyExpression<CuboidRegion, Number> {
 	
