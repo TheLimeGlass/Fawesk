@@ -28,6 +28,7 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.util.Direction;
 import ch.njol.util.coll.CollectionUtils;
+import me.limeglass.fawesk.Fawesk;
 import me.limeglass.fawesk.lang.FaweskExpression;
 import me.limeglass.fawesk.utils.TypeClassInfo;
 import me.limeglass.fawesk.utils.annotations.Patterns;
@@ -39,6 +40,7 @@ import me.limeglass.fawesk.utils.annotations.Patterns;
 public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 	
 	static {
+		Fawesk.consoleMessage("Hello?");
 		Converters.registerConverter(BaseBlock.class, ItemType.class, new Converter<BaseBlock, ItemType>() {
 			@Override
 			@Nullable
@@ -73,7 +75,7 @@ public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 				}
 			}
 			
-		});
+		}).register();
 	}
 	
 	@Override

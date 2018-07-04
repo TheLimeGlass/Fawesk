@@ -2,7 +2,9 @@ package me.limeglass.fawesk.lang;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.event.Event;
 
@@ -29,6 +31,7 @@ import me.limeglass.fawesk.utils.annotations.Single;
 public abstract class FaweskExpression<T> extends SimpleExpression<T> implements DataChecker {
 
 	private List<Object> values = new ArrayList<Object>();
+	protected Set<T> collection = new HashSet<T>();
 	protected ExpressionData expressions;
 	private Class<T> expressionClass;
 	protected ParseResult parser;
