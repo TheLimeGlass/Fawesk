@@ -1,10 +1,9 @@
 package me.limeglass.fawesk.lang;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.classes.Changer;
@@ -26,7 +25,8 @@ public abstract class FaweskPropertyExpression<F, T> extends PropertyExpression<
 
 	protected ExpressionData expressions;
 	protected Class<T> expressionClass;
-	private List<Object> values = new ArrayList<Object>();
+	protected int patternMark;
+	protected Set<T> collection = new HashSet<T>();
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -44,6 +44,7 @@ public abstract class FaweskPropertyExpression<F, T> extends PropertyExpression<
 	public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
 		setExpr((Expression<? extends F>) expressions[0]);
 		if (expressions != null && getSyntax() != null) this.expressions = new ExpressionData(expressions, getSyntax()[0]);
+		this.patternMark = parser.mark;
 		return true;
 	}
 
@@ -54,7 +55,7 @@ public abstract class FaweskPropertyExpression<F, T> extends PropertyExpression<
 	@Override
 	public String toString(Event event, boolean debug) {
 		String modSyntax = Syntax.isModified(getClass()) ? "Modified syntax: " + Arrays.toString(getSyntax()) : Arrays.toString(getSyntax());
-		if (event != null) Fawesk.debugMessage(getClass().getSimpleName() + " - " + modSyntax + " (" + event.getEventName() + ")" + " Data: " + Arrays.toString(values.toArray()));
+		if (event != null) Fawesk.debugMessage(getClass().getSimpleName() + " - " + modSyntax + " (" + event.getEventName() + ")" + " Data: " + Arrays.toString(collection.toArray()));
 		return Fawesk.getInstance().getNameplate() + getClass().getSimpleName() + ": the " + getPropertyName() + " (of|from) " + getExpr().toString(event, debug);
 	}
 	
@@ -65,6 +66,12 @@ public abstract class FaweskPropertyExpression<F, T> extends PropertyExpression<
 		if (getClass().isAnnotationPresent(AllChangers.class)) return returnable;
 		if (!getClass().isAnnotationPresent(Changers.class)) return null;
 		return (Arrays.asList(getClass().getAnnotation(Changers.class).value()).contains(mode)) ? returnable : null;
+	}
+	
+	@Override
+	protected T[] get(Event event, F[] objects) {
+		if (isNull(event)) return null;
+		return get(event, objects);
 	}
 	
 	protected Boolean isNull(Event event) {

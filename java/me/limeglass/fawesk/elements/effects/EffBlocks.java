@@ -17,6 +17,7 @@ import com.sk89q.worldedit.extension.input.InputParseException;
 import com.sk89q.worldedit.extension.input.ParserContext;
 import com.sk89q.worldedit.function.pattern.Pattern;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.World;
 
 import ch.njol.skript.Skript;
@@ -31,8 +32,9 @@ import me.limeglass.fawesk.utils.annotations.Patterns;
 
 @Name("Fawesk - set blocks")
 @Description("Sets all the blocks within two points to a block/itemtype.")
-@Patterns({"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) from %location% [(on|towards)] %direction% to %string/itemtypes%",
-		"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) (within|between|from) %block% (and|to) %block% to %string/itemtypes%"})
+@Patterns({"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) (within|between|from) %block% (and|to) %block% to %string/itemtypes%",
+		"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) from %location% [(on|towards)] %direction% to %string/itemtypes%",
+		"set [(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|[base[ ]]blocks) (within|from) %worldeditregion% to %string/itemtypes%"})
 public class EffBlocks extends FaweskEffect {
 
 	@SuppressWarnings("deprecation")
@@ -40,10 +42,11 @@ public class EffBlocks extends FaweskEffect {
 	protected void execute(Event event) {
 		if (areNull(event)) return;
 		Object from = expressions.get(0).getSingle(event);
-		CuboidRegion region;
-		World world;
+		Region region = null;
+		World world = null;
+		Object[] delta = null;
 		
-		if (!(from instanceof CuboidRegion)) {
+		if (!(from instanceof Region)) {
 			Object to = expressions.get(1).getSingle(event);
 			
 			Location fromLoc = from instanceof Block ? ((Block)from).getLocation() : (Location) from;
@@ -55,17 +58,19 @@ public class EffBlocks extends FaweskEffect {
 			Vector toVector = new Vector(toLoc.getX(), toLoc.getY(), toLoc.getZ());
 			
 			region = new CuboidRegion(world, fromVector, toVector);
-		} else {
-			region = (CuboidRegion) from;
+			delta = expressions.get(2).getAll(event);
+		} else if (from instanceof Region) {
+			region = (Region) from;
 			world = region.getWorld();
+			delta = expressions.get(1).getAll(event);
 		}
+		
+		if (world == null) return;
 
 		EditSession session = FaweAPI.getEditSessionBuilder(world).autoQueue(true).build();
 		
 		session.setBlocks(region, new BaseBlock(0));
 		session.flushQueue();
-		
-		Object[] delta = expressions.get(2).getAll(event);
 		
 		if (delta != null) {
 			if (delta[0] instanceof String) {
@@ -80,15 +85,16 @@ public class EffBlocks extends FaweskEffect {
 				try {
 					pattern = WorldEdit.getInstance().getPatternFactory().parseFromInput(input, context);
 				} catch (InputParseException e) {
-					Skript.exception(e, "The input " + input + " was not a valid input for WorldEdit/FAWE");
+					Skript.error("The input `" + input + "` was not a valid input for WorldEdit/FAWE, see //patterns");
 				}
-				if (pattern == null) return;
+				if (pattern == null) {
+					session.undo(session);
+					return;
+				}
 				session.setBlocks(region, pattern);
 			} else if (delta[0] instanceof ItemType) {
 				ItemStack item = ((ItemType)delta[0]).getItem().getRandom();
 				session.setBlocks(region, new BaseBlock(item.getTypeId(), item.getData().getData()));
-			} else {
-				Bukkit.broadcastMessage("not block " + delta[0].getClass());
 			}
 		}
 		session.flushQueue();

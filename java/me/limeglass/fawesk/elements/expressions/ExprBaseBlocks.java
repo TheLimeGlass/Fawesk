@@ -17,6 +17,7 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.World;
 
 import ch.njol.skript.aliases.ItemType;
@@ -30,12 +31,11 @@ import ch.njol.util.coll.CollectionUtils;
 import me.limeglass.fawesk.lang.FaweskExpression;
 import me.limeglass.fawesk.utils.TypeClassInfo;
 import me.limeglass.fawesk.utils.annotations.Patterns;
-@Name("Fawesk - BaseBlocks between")
-@Description("Returns the baseblocks between two locations. This is not designed to SET blocks, only to get the ItemTypes of blocks within, locations are not included.\n" +
-		"WorldEdit/FAWE saves block objects with locations internally for performance.")
-@Patterns({"[(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|base[ ]blocks) from %location% [(on|towards)] %direction%",
-		"[(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|base[ ]blocks) (within|from) %cuboidregion%",
-		"[(all [[of] the]|the)] [fawe[sk]] ((item|block)[ ]types|base[ ]blocks) (within|between|from) %block% (and|to) %block%"})
+@Name("Fawesk - BaseBlocks between different")
+@Description("Returns the different baseblocks between two locations. Returning only one of each item.")
+@Patterns({"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks from %location% [(on|towards)] %direction%",
+		"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks (within|from) %worldeditregion%",
+		"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks (within|between|from) %block% (and|to) %block%"})
 public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 	
 	static {
@@ -91,10 +91,10 @@ public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 		if (expressions.size() <= 0) return null;
 		final Set<BaseBlock> blocks = new HashSet<BaseBlock>();
 		Object from = expressions.get(0).getSingle(event);
-		CuboidRegion region;
-		World world;
+		Region region = null;
+		World world = null;
 		
-		if (!(from instanceof CuboidRegion)) {
+		if (!(from instanceof Region)) {
 			Object to = expressions.get(1).getSingle(event);
 			
 			Location fromLoc = from instanceof Block ? ((Block)from).getLocation() : (Location) from;
@@ -106,17 +106,21 @@ public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 			Vector toVector = new Vector(toLoc.getX(), toLoc.getY(), toLoc.getZ());
 			
 			region = new CuboidRegion(world, fromVector, toVector);
-		} else {
-			region = (CuboidRegion) from;
+		} else if (from instanceof Region) {
+			region = (Region) from;
 			world = region.getWorld();
 		}
+		
+		if (world == null) return null;
 
-		EditSession session = FaweAPI.getEditSessionBuilder(world).build();
+		EditSession session = FaweAPI.getEditSessionBuilder(world).autoQueue(true).build();
 		
 		blocks.addAll(session.getBlockDistributionWithData(region)
-				.parallelStream()
-				.map(block -> block.getID())
-				.collect(Collectors.toSet()));
+			.parallelStream()
+			.map(block -> block.getID())
+			.collect(Collectors.toSet()));
+		
+		session.flushQueue();
 		
 		return blocks.iterator();
 	}

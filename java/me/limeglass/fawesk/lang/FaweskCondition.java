@@ -2,6 +2,7 @@ package me.limeglass.fawesk.lang;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.bukkit.event.Event;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
@@ -38,6 +39,12 @@ public abstract class FaweskCondition extends Condition implements DataChecker {
 			Fawesk.debugMessage(getClass().getSimpleName() + " - " + modSyntax + " (" + event.getEventName() + ")" + " Data: " + Arrays.toString(values.toArray()));
 		}
 		return Fawesk.getInstance().getNameplate() + getClass().getSimpleName() + "- Syntax: " + Arrays.toString(getSyntax());
+	}
+	
+	@Override
+	public boolean check(Event event) {
+		if (areNull(event)) return false;
+		return check(event);
 	}
 
 	public <T> Boolean isNull(Event event, @SuppressWarnings("unchecked") Class<T>... types) {
