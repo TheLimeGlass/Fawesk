@@ -1,6 +1,7 @@
-name: skript-time
+name: Fawesk
 author: LimeGlass
-description: A Skript addon dedicated to making time handling better.
+description: A Skript addon dedicated to hooking into FAWE
 version: 1.0.0
-main: me.limeglass.time.Time
-depend: [Skript]
+main: me.limeglass.fawesk.Fawesk
+loadAfter: [WorldEdit]
+depend: [Skript, FastAsyncWorldEdit]
