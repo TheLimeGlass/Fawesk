@@ -18,7 +18,7 @@ import me.limeglass.fawesk.utils.annotations.Single;
 
 @Name("Fawesk - Cuboid region")
 @Description("Returns the CuboidRegion between two locations. This is also defined as a worldeditregion.")
-@Patterns({"[fawe[sk]] (world[ ]edit|cuboid)[[ ]region] from %location% [(on|towards)] %direction%",
+@Patterns({"[fawe[sk]] (world[ ]edit|cuboid)[[ ]region] from %location% [(to [the]|on|towards)] %direction/location%",
 		"[fawe[sk]] (world[ ]edit|cuboid)[[ ]region] (within|between|from) %block% (and|to) %block%"})
 @RegisterType("cuboidregion")
 @Single
@@ -35,7 +35,7 @@ public class ExprCuboidRegion extends FaweskExpression<CuboidRegion> {
 		
 		World world = BukkitUtil.getLocalWorld(fromLoc.getWorld());
 		
-		Location toLoc = to instanceof Block ? ((Block)to).getLocation() : ((Direction) to).getDirection(fromLoc).toLocation(fromLoc.getWorld());
+		Location toLoc = to instanceof Block ? ((Block)to).getLocation() : to instanceof Location ? (Location)to : ((Direction) to).getDirection(fromLoc).toLocation(fromLoc.getWorld());
 		Vector toVector = new Vector(toLoc.getX(), toLoc.getY(), toLoc.getZ());
 		
 		return new CuboidRegion[] {new CuboidRegion(world, fromVector, toVector)};

@@ -69,8 +69,8 @@ public class TypeClassInfo<T> {
 				@Override
 				public String toVariableNameString(T t) {
 					return codeName + ':' + t.toString();
-			}}).serializeAs(clazz);
-			if (classInfo.getSerializer() == null) classInfo.serializeAs(null);
+			}});
+			if (classInfo.getSerializer() == null) classInfo.serializeAs(clazz);
 			Classes.registerClass(classInfo);
 			Fawesk.debugMessage("&5Registered Type '" + codeName + "' with return class " + clazz.getName());
 		}
