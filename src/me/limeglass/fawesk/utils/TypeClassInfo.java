@@ -3,6 +3,7 @@ package me.limeglass.fawesk.utils;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
+import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
@@ -34,6 +35,11 @@ public class TypeClassInfo<T> {
 	
 	public T parse(String s, ParseContext parseContext){
 		return null;
+	}
+	
+	public TypeClassInfo<T> serializer(Serializer<T> serializer) {
+		classInfo.serializer(serializer);
+		return this;
 	}
 	
 	public TypeClassInfo<T> changer(Changer<T> changer) {

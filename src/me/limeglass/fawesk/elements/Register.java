@@ -38,6 +38,7 @@ public class Register {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void register() {
+		FaweskTypes.register();
 		try {
 			Method method = JavaPlugin.class.getDeclaredMethod("getFile");
 			method.setAccessible(true);

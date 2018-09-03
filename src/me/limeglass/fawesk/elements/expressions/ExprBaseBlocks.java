@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
-import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.Nullable;
 
 import com.boydti.fawe.FaweAPI;
@@ -20,16 +19,10 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.World;
 
-import ch.njol.skript.aliases.ItemType;
-import ch.njol.skript.classes.Changer;
-import ch.njol.skript.classes.Converter;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
-import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.util.Direction;
-import ch.njol.util.coll.CollectionUtils;
 import me.limeglass.fawesk.lang.FaweskExpression;
-import me.limeglass.fawesk.utils.TypeClassInfo;
 import me.limeglass.fawesk.utils.annotations.Patterns;
 
 @Name("Fawesk - BaseBlocks between different")
@@ -38,44 +31,6 @@ import me.limeglass.fawesk.utils.annotations.Patterns;
 		"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks (within|from) [cuboid[[ ]region[s]]] %worldeditregion%",
 		"[(all [[of] the]|the)] [fawe[sk]] base[ ]blocks (within|between|from) %block% (and|to) %block%"})
 public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
-	
-	static {
-		Converters.registerConverter(BaseBlock.class, ItemType.class, new Converter<BaseBlock, ItemType>() {
-			@Override
-			@Nullable
-			public ItemType convert(final BaseBlock base) {
-				return new ItemType(base.getId(), (short) base.getData());
-			}
-		});
-		
-		Converters.registerConverter(BaseBlock.class, String.class, new Converter<BaseBlock, String>() {
-			@Override
-			@Nullable
-			public String convert(final BaseBlock base) {
-				return new ItemType(base.getId(), (short) base.getData()).toString();
-			}
-		});
-
-		TypeClassInfo.create(BaseBlock.class, "baseblock").changer(new Changer<BaseBlock>() {
-
-			@Override
-			@Nullable
-			public Class<?>[] acceptChange(ChangeMode mode) {
-				return (mode == ChangeMode.SET) ? CollectionUtils.array(ItemType.class) : null;
-			}
-			
-			@SuppressWarnings("deprecation")
-			@Override
-			public void change(BaseBlock[] baseblocks, @Nullable Object[] delta, ChangeMode mode) {
-				if (delta == null) return;
-				ItemStack item = ((ItemType) delta[0]).getRandom();
-				for (BaseBlock baseblock : baseblocks) {
-					baseblock.setIdAndData(item.getTypeId(), item.getData().getData());
-				}
-			}
-			
-		}).register();
-	}
 	
 	@Override
 	protected BaseBlock[] get(Event event) {
@@ -97,7 +52,6 @@ public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 		
 		if (!(from instanceof Region)) {
 			Object to = expressions.get(1).getSingle(event);
-			
 			Location fromLoc = from instanceof Block ? ((Block)from).getLocation() : (Location) from;
 			Vector fromVector = new Vector(fromLoc.getX(), fromLoc.getY(), fromLoc.getZ());
 			
@@ -125,4 +79,5 @@ public class ExprBaseBlocks extends FaweskExpression<BaseBlock> {
 		
 		return blocks.iterator();
 	}
+
 }

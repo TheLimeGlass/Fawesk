@@ -1,7 +1,7 @@
 name: Fawesk
 author: LimeGlass
 description: A Skript addon dedicated to hooking into FAWE
-version: 1.0.0
+version: 1.0.1
 main: me.limeglass.fawesk.Fawesk
 loadAfter: [WorldEdit]
 depend: [Skript, FastAsyncWorldEdit]

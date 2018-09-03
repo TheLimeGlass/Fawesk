@@ -12,7 +12,7 @@ import me.limeglass.fawesk.Fawesk;
 
 public interface DataChecker {
 
-	public default Boolean areNull(Event event, ExpressionData expressions) {
+	public default <T> Boolean areNull(Event event, ExpressionData expressions) {
 		if (expressions.getExpressions() == null) return true;
 		for (Expression<?> expression : expressions.getExpressions()) {
 			if (expression == null) return true;

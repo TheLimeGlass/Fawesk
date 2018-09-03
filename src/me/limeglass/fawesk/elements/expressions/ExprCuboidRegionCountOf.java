@@ -18,6 +18,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import ch.njol.skript.aliases.ItemType;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
+import me.limeglass.fawesk.Fawesk;
 import me.limeglass.fawesk.lang.FaweskExpression;
 import me.limeglass.fawesk.utils.annotations.Patterns;
 import me.limeglass.fawesk.utils.annotations.Single;
@@ -46,8 +47,11 @@ public class ExprCuboidRegionCountOf extends FaweskExpression<Number> {
 			if (patternMark == 1) {
 				session.getBlockDistributionWithData(cuboid).parallelStream()
 					.filter(block -> !blocks.contains(block.getID().getId()))
-					.forEach(block -> filter.addBlock(block.getID()));
+					.forEach(block -> filter.addBlock(block.getID().getId()));
 			} else blocks.forEach(filter::addBlock);
+			for (Integer id : blocks) {
+				Fawesk.consoleMessage("block: " + id);
+			}
 			MCAFilterCounter counter = queue.filterRegion(filter, new RegionWrapper(cuboid.getMinimumPoint(), cuboid.getMaximumPoint()));
 			collection.add(counter.getTotal());
 			session.cancel();

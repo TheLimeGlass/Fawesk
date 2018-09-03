@@ -6,6 +6,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Name;
+import me.limeglass.fawesk.Fawesk;
 import me.limeglass.fawesk.lang.FaweskPropertyExpression;
 import me.limeglass.fawesk.utils.annotations.Properties;
 import me.limeglass.fawesk.utils.annotations.PropertiesAddition;
@@ -20,6 +21,7 @@ public class ExprCuboidRegionCount extends FaweskPropertyExpression<CuboidRegion
 	protected Number[] get(Event event, CuboidRegion[] cuboids) {
 		for (CuboidRegion cuboid : cuboids) {
 			collection.add(cuboid.getHeight() * cuboid.getLength() * cuboid.getWidth());
+			Fawesk.consoleMessage(cuboid.getHeight() * cuboid.getLength() * cuboid.getWidth() + " wat");
 		}
 		return collection.toArray(new Number[collection.size()]);
 	}
