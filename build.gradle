@@ -59,9 +59,12 @@ dependencies {
 		transitive = false
 	}
 
+	// FastAsyncWorldEdit
 	implementation(platform("com.intellectualsites.bom:bom-newest:${project.fawe_version}"))
 	compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
 	compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { transitive = false }
+
+	// Adventure
 	implementation "net.kyori:adventure-platform-bukkit:${project.adventure_platform_bukkit_version}"
 	implementation "net.kyori:adventure-text-minimessage:${project.adventure_minimessage_version}"
 	implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
@@ -74,4 +77,8 @@ processResources {
 		'kotlin_version' : project.property('kotlin_version'),
 		'version' : project.property('plugin_version'),
 	]
+}
+
+jar {
+	archiveVersion.set(project.plugin_version)
 }

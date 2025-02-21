@@ -58,9 +58,7 @@ class EffPasteSchematic : Effect() {
 
         format.getReader(FileInputStream(file)).use { reader ->
             val clipboard = reader?.read() ?: return
-            CompletableFuture.runAsync(Runnable {
-                clipboard.paste(world, vector, false, air, entities, null)
-            })
+            CompletableFuture.runAsync { clipboard.paste(world, vector, false, air, entities, null) }
         }
     }
 

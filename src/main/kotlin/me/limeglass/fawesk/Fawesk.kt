@@ -7,7 +7,7 @@ class Fawesk : JavaPlugin() {
 
     override fun onEnable() {
         Skript.registerAddon(this)
-            .loadClasses("me.limeglass.skriptfawe", "elements")
+            .loadClasses("me.limeglass.fawesk", "elements")
             //.setLanguageFileDirectory("lang")
     }
 

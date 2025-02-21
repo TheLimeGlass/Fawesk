@@ -1,28 +1,32 @@
 package me.limeglass.fawesk.elements
 
 import ch.njol.skript.Skript
+import ch.njol.skript.classes.Changer.ChangeMode
+import ch.njol.skript.doc.Examples
 import ch.njol.skript.expressions.ExprInput
-import ch.njol.skript.lang.Condition
-import ch.njol.skript.lang.Expression
-import ch.njol.skript.lang.ExpressionType
-import ch.njol.skript.lang.InputSource
+import ch.njol.skript.lang.*
 import ch.njol.skript.lang.InputSource.InputData
-import ch.njol.skript.lang.SkriptParser
 import ch.njol.skript.lang.parser.ParserInstance
 import ch.njol.skript.lang.util.SimpleExpression
 import ch.njol.skript.util.BlockStateBlock
 import ch.njol.util.Kleenean
 import com.google.common.collect.Iterators
-import com.sk89q.worldedit.math.BlockVector3
-import org.bukkit.Location
-import org.bukkit.event.Event
-import java.util.concurrent.CompletableFuture
-import com.sk89q.worldedit.regions.CuboidRegion
 import com.sk89q.worldedit.WorldEdit
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.bukkit.BukkitWorld
+import com.sk89q.worldedit.math.BlockVector3
+import com.sk89q.worldedit.regions.CuboidRegion
+import org.bukkit.Location
 import org.bukkit.block.Block
+import org.bukkit.block.data.BlockData
+import org.bukkit.event.Event
+import java.util.concurrent.CompletableFuture
 
+@Examples(
+    "set fawe blocks from {test1} to {test2} where [block input is not air] to air",
+    "set fawe blocks from {test1} to {test2} to sug",
+    "loop fawe blocks within {test1} to {test2} where [block input is a diamond block or a grass block] to air"
+)
 class ExprBlocks : SimpleExpression<Block>(), InputSource {
 
     companion object {
@@ -79,10 +83,27 @@ class ExprBlocks : SimpleExpression<Block>(), InputSource {
                 val blockState = BukkitAdapter.adapt(block).createBlockState().copy(location)
                 BlockStateBlock(blockState)
             }.filter {
+                if (filterCondition == null) return@filter true
                 currentValue = it
-                filterCondition?.check(event) == true
+                filterCondition!!.check(event)
             }.toMutableList().iterator()
         }.get()
+    }
+
+    override fun acceptChange(change: ChangeMode): Array<out Class<*>?>? =
+        if (change == ChangeMode.SET) arrayOf(BlockData::class.java) else null
+
+    override fun change(event: Event?, delta: Array<out Any?>?, mode: ChangeMode) {
+        val world = BukkitWorld(location1.getSingle(event)?.world ?: return)
+        val blockData = delta?.get(0) as BlockData
+        val editSession = WorldEdit.getInstance().newEditSessionBuilder().world(world).build()
+        val blocks = iterator(event)?.asSequence()?.map {
+            BlockVector3.at(it.location.blockX, it.location.blockY, it.location.blockZ)
+        }?.toSet() ?: return
+        CompletableFuture.supplyAsync {
+            editSession.setBlocks(blocks, BukkitAdapter.adapt(blockData))
+            editSession.close()
+        }
     }
 
     override fun toString(e: Event?, debug: Boolean): String =
