@@ -3,11 +3,13 @@ Most servers use FAWE, so why not allow your scripts to set millions of blocks a
 
 Set and get blocks
 ```vs
-(worldedit|fawe) blocks (within|from) %location% to %location% (where|that match) \\[<.+>\\]
-(worldedit|fawe) blocks (within|from) %location% to %location%
+[:parallel] (worldedit|fawe) blocks (within|from) %location% (to|and) %location%
+[:parallel] (worldedit|fawe) blocks (within|from) %location% (to|and) %location% (where|that match) \\[<.+>\\]
+[:parallel] (worldedit|fawe) block[s] [at] %locations% (where|that match) \\[<.+>\\]
+[:parallel] (worldedit|fawe) block[s] [at] %locations%
 
 # Examples
-set fawe blocks from {test1} to {test2} where [block input is not air] to air
+parallel set fawe blocks from {test1} to {test2} where [block input is not air] to air # Use parallel for unordered large updates
 set fawe blocks from {test1} to {test2} to wheat[age=5]
 loop fawe blocks within {test1} to {test2} where [block input is a diamond block or a grass block] to air
 ```
