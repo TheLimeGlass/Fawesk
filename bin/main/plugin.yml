@@ -1,6 +1,0 @@
-name: worldedit-aliases
-authors: [LimeGlass]
-version: @version@
-api-version: 1.13
-depend: [WorldEdit]
-main: me.limeglass.worldeditaliases.WorldEditAliases
