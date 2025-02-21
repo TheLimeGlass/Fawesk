@@ -1,4 +1,5 @@
-Recode of the addon to use full asynchronous setting and new FAWE API
+Fawesk allows you to utilize FAWE with Skript.
+Most servers use FAWE, so why not allow your scripts to set millions of blocks at a time too?
 
 Set and get blocks
 ```vs
