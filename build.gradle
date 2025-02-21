@@ -1,68 +1,77 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
+buildscript {
+	apply from: 'dependencies.gradle'
+}
+
 plugins {
-	id 'com.github.johnrengelman.shadow' version '7.1.2'
-	id 'maven-publish'
-	id 'eclipse'
+	id 'org.jetbrains.kotlin.jvm' version '2.0.0'
 	id 'java'
 }
 
-compileJava.options.encoding = 'Cp1252'
-compileTestJava.options.encoding = 'Cp1252'
+def supportedJava = 21
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(supportedJava))
+}
+
+kotlin {
+	jvmToolchain {
+		languageVersion.set(JavaLanguageVersion.of(supportedJava))
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs += ['-source', '' + supportedJava, '-target', '' + supportedJava]
+}
+
+compileTestJava.options.encoding = 'UTF-8'
+compileJava.options.encoding = 'UTF-8'
 
 repositories {
 	mavenCentral()
 
-	//Spigot
-	maven {
-		url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-	}
+	// Spigot
+	maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
 
 	// Bungeecord
-	maven {
-		url "https://oss.sonatype.org/content/repositories/snapshots/"
-	}
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 
-	maven {
-		url 'https://mvnrepository.com/artifact/org.json/json'
-	}
+	// Paper, FAWE and Adventure API
+	maven { url 'https://repo.papermc.io/repository/maven-public/' }
 
-	//Jitpack for Skript
-	maven {
-		url 'https://jitpack.io'
-	}
+	// WorldEdit
+	maven { url 'https://maven.enginehub.org/repo/' }
+
+	// Skript
+	maven { url 'https://repo.skriptlang.org/releases' }
 
 }
 
 dependencies {
-
-	//Nullable annotation
-	implementation (group: 'org.eclipse.jdt', name: 'org.eclipse.jdt.annotation', version: '2.2.600')
-
-	//Spigot/Bukkit
-	implementation (group: 'org.spigotmc', name: 'spigot-api', version: '1.19-R0.1-SNAPSHOT')
+	implementation "org.spigotmc:spigot-api:${project.spigot_version}"
+	implementation ("com.sk89q.worldedit:worldedit-bukkit:${project.worldedit_version}") {
+		exclude module: 'bstats-bukkit'
+	}
 
 	//Skript
-	implementation (group: 'com.github.SkriptLang', name: 'Skript', version: '2.6.2') {
+	implementation (group: 'com.github.SkriptLang', name: 'Skript', version: project.skript_version) {
 		transitive = false
 	}
 
-	shadow (group: 'org.json', name: 'json', version: '20220320')
-
+	implementation(platform("com.intellectualsites.bom:bom-newest:${project.fawe_version}"))
+	compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
+	compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { transitive = false }
+	implementation "net.kyori:adventure-platform-bukkit:${project.adventure_platform_bukkit_version}"
+	implementation "net.kyori:adventure-text-minimessage:${project.adventure_minimessage_version}"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
 }
 
 processResources {
-	filter ReplaceTokens, tokens: ["version": project.property("version")]
-	from ("lang/") {
-		include '*.lang'
-		into 'lang/'
-	}
-}
-
-shadowJar {
-	configurations = [project.configurations.shadow]
-	archiveVersion = project.property("version")
-	archiveBaseName = project.name
-	classifier = ''
-	minimize()
+	filter ReplaceTokens, tokens: [
+		'adventure_platform_bukkit_version' : project.property('adventure_platform_bukkit_version'),
+		'adventure_minimessage_version' : project.property('adventure_minimessage_version'),
+		'kotlin_version' : project.property('kotlin_version'),
+		'version' : project.property('plugin_version'),
+	]
 }

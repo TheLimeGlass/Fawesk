@@ -1,9 +1,10 @@
-name: Khoryl
+name: Fawesk
 authors: [LimeGlass]
 version: @version@
-api-version: 1.13
-softdepend: [Skellett]
-depend: [Skript]
-main: me.limeglass.khoryl.Khoryl
-loadbefore:
-  - SkBee
+api-version: 1.17
+depend: [FastAsyncWorldEdit, Skript]
+main: me.limeglass.fawesk.Fawesk
+libraries:
+  - "net.kyori:adventure-platform-bukkit:@adventure_platform_bukkit_version@"
+  - "net.kyori:adventure-text-minimessage:@adventure_minimessage_version@"
+  - "org.jetbrains.kotlin:kotlin-stdlib:@kotlin_version@"
