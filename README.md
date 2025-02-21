@@ -18,3 +18,7 @@ _Currently only supporting (.sponge) V3 schematics as it's the best schematic sa
 paste schematic %string% at %location% [air:exclud[ing|e] air] [entities:exclud[ing|e] entities]
 (save|create) schematic %string% from [pos1] %location% [to] [pos2] %location% [with origin %-location%]
 ```
+
+
+https://github.com/user-attachments/assets/f92c66fa-feff-4cd9-8eb0-37aca41b4da4
+
