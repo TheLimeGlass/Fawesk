@@ -6,7 +6,7 @@ ext {
     worldedit_version = '7.4.0-SNAPSHOT'
     fawe_version = '1.52'
     skript_version = '2.10.1'
-    adventure_minimessage_version = '4.18.0'
+    adventure_minimessage_version = '4.19.0'
     adventure_platform_bukkit_version = '4.3.4'
     kotlin_version = '2.1.10'
 }
