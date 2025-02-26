@@ -1,0 +1,17 @@
+version: @version@
+
+types:
+	clipboardformat: clipboard format, clipboard formats
+	builtinclipboardformat: built-in clipboard format, built-in clipboard formats, built in clipboard format
+
+built in clipboard format:
+    brokeentity: Broken Entity
+    fast_v2: fast v2
+    fast_v3: fast v3
+    fast: fast old
+    mcedit_schematic: mcedit schematic, mc edit schematic, mc edit
+    minecraft_structure: minecraft structure, minecraft structure block
+    sponge_v1_schematic: sponge v1 schematic, sponge v1
+    sponge_v2_schematic: sponge v2 schematic, sponge v2
+    sponge_v3_schematic: sponge v3 schematic, sponge v3
+    sponge: sponge old

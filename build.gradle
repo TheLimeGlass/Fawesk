@@ -50,6 +50,7 @@ repositories {
 
 dependencies {
 	implementation "org.spigotmc:spigot-api:${project.spigot_version}"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
 	implementation ("com.sk89q.worldedit:worldedit-bukkit:${project.worldedit_version}") {
 		exclude module: 'bstats-bukkit'
 	}
@@ -63,17 +64,10 @@ dependencies {
 	implementation(platform("com.intellectualsites.bom:bom-newest:${project.fawe_version}"))
 	compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
 	compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { transitive = false }
-
-	// Adventure
-	implementation "net.kyori:adventure-platform-bukkit:${project.adventure_platform_bukkit_version}"
-	implementation "net.kyori:adventure-text-minimessage:${project.adventure_minimessage_version}"
-	implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
 }
 
 processResources {
 	filter ReplaceTokens, tokens: [
-		'adventure_platform_bukkit_version' : project.property('adventure_platform_bukkit_version'),
-		'adventure_minimessage_version' : project.property('adventure_minimessage_version'),
 		'kotlin_version' : project.property('kotlin_version'),
 		'version' : project.property('plugin_version'),
 	]
