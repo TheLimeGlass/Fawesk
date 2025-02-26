@@ -125,16 +125,16 @@ class ExprBlocks : SimpleExpression<Block>(), InputSource {
         if (change == ChangeMode.SET) arrayOf(BlockData::class.java) else null
 
     override fun change(event: Event?, delta: Array<out Any?>?, mode: ChangeMode) {
-        val world: BukkitWorld = if (locations != null) BukkitWorld(locations!!.getArray(event).first().world) // Properly handled in iterator
-            else {
-                BukkitWorld(location1!!.getSingle(event)?.world ?: return)
-            }
-        val blockData = delta?.get(0) as BlockData
-        val editSession = WorldEdit.getInstance().newEditSessionBuilder().world(world).build()
-        val blocks = iterator(event)?.asSequence()?.map {
-            BlockVector3.at(it.location.blockX, it.location.blockY, it.location.blockZ)
-        }?.toSet() ?: return
         CompletableFuture.supplyAsync {
+            val world: BukkitWorld = if (locations != null) BukkitWorld(locations!!.getArray(event).first().world) // Properly handled in iterator
+            else {
+                BukkitWorld(location1!!.getSingle(event)?.world ?: return@supplyAsync)
+            }
+            val blockData = delta?.get(0) as BlockData
+            val editSession = WorldEdit.getInstance().newEditSessionBuilder().world(world).build()
+            val blocks = iterator(event)?.asSequence()?.map {
+                BlockVector3.at(it.location.blockX, it.location.blockY, it.location.blockZ)
+            }?.toSet() ?: return@supplyAsync
             editSession.setBlocks(blocks, BukkitAdapter.adapt(blockData))
             editSession.close()
         }
