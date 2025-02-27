@@ -24,6 +24,8 @@ set the fawe block below all of the players to a diamond block
 set parallel fawe blocks {_blocks::*} [where block input is a diamond block] to air
 loop fawe blocks within {test1} to {test2} where [block input is a diamond block or a grass block] to air
 ```
+Note: Using the expression as a return will hold the thread due to Skript not supporting asynchronous expressions yet.
+
 Note that the `where` filter will be ran asynchronously, so be careful with what you input check.
 The `block input` information is thread safe.
 
