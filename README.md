@@ -25,6 +25,18 @@ set parallel fawe blocks {_blocks::*} [where block input is a diamond block] to 
 loop fawe blocks within {test1} to {test2} where [block input is a diamond block or a grass block] to air
 ```
 Note: Using the expression as a return will hold the thread due to Skript not supporting asynchronous expressions yet.
+Use skript-mirror async sections in order to collect a list of blocks async https://tpgamesnl.gitbook.io/skript-reflect/advanced/reflection/sections
+```
+create new section stored in {_section}:
+    return first {_count} elements of shuffled fawe blocks within {_pos1} to {_pos2} where [input is not air]
+
+run section {_section} async and store result in {_result::*} and wait
+
+create new section stored in {_section}:
+    return parallel fawe blocks within {_pos1} to {_pos2} where [input is not air]
+
+run section {_section} async and store result in {_result::*} and wait
+```
 
 Note that the `where` filter will be ran asynchronously, so be careful with what you input check.
 The `block input` information is thread safe.
