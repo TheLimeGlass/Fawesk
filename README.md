@@ -41,7 +41,7 @@ run section {_section} async and store result in {_result::*} and wait
 Note that the `where` filter will be ran asynchronously, so be careful with what you input check.
 The `block input` information is thread safe.
 
-Use the `parallel` keyword to run the block changes in parallel. Useful for massive edits.
+Use the `parallel` keyword to run the block changes in parallel. Better on performance for massive edits.
 
 The order of blocks will be unordered
 
