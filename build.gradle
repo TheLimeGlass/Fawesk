@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-	id 'org.jetbrains.kotlin.jvm' version '2.1.10'
+	id 'org.jetbrains.kotlin.jvm' version '2.2.0'
 	id 'java'
 }
 
@@ -40,11 +40,11 @@ repositories {
 	// Paper, FAWE and Adventure API
 	maven { url 'https://repo.papermc.io/repository/maven-public/' }
 
-	// WorldEdit
-	maven { url 'https://maven.enginehub.org/repo/' }
-
 	// Skript
 	maven { url 'https://repo.skriptlang.org/releases' }
+
+	// WorldEdit
+	maven { url 'https://maven.enginehub.org/repo/' }
 
 }
 
