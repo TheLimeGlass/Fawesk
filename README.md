@@ -15,6 +15,8 @@ Finally! No need to wait a tick for looping blocks, just straight raw block edit
 [:parallel] (worldedit|fawe) blocks (within|from) %location% (to|and) %location% (where|that match) \\[<.+>\\]
 [:parallel] (worldedit|fawe) block[s] [at] %locations% (where|that match) \\[<.+>\\]
 [:parallel] (worldedit|fawe) block[s] [at] %locations%
+[the] [:parallel] (worldedit|fawe) blocks of schematic[s] %strings% [using [clipboard] [format] %-clipboardformat/builtinclipboardformat%]
+[the] [:parallel] (worldedit|fawe) blocks of schematic[s] %strings% (where|that match) [<.+>]
 
 # Examples
 set parallel fawe blocks from {test1} to {test2} where [block input is not air] to air
