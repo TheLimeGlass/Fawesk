@@ -1,0 +1,9 @@
+version: @version@
+
+# @an makes the pattern allow for `an`.
+
+types:
+	villagerprofession: profession, villager profession
+
+villagerprofession:
+	armorer: armorer

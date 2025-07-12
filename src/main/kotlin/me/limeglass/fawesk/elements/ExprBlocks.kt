@@ -20,7 +20,9 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.bukkit.BukkitWorld
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.regions.CuboidRegion
+import com.sk89q.worldedit.world.block.BlockTypes
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
@@ -37,10 +39,10 @@ class ExprBlocks : SimpleExpression<Block>(), InputSource {
     companion object {
         init {
             Skript.registerExpression(ExprBlocks::class.java, Block::class.java, ExpressionType.SIMPLE,
-                "[:parallel] (worldedit|fawe) blocks (within|from) %location% (to|and) %location%",
-                "[:parallel] (worldedit|fawe) blocks (within|from) %location% (to|and) %location% (where|that match) \\[<.+>\\]",
-                "[the] [:parallel] (worldedit|fawe) block[s] [at] %locations% (where|that match) \\[<.+>\\]",
-                "[the] [:parallel] (worldedit|fawe) block[s] [at] %locations%"
+                "[:parallel] (worldedit|fawe) (blocks|things) (within|from) %location% (to|and) %location%",
+                "[:parallel] (worldedit|fawe) (blocks|things) (within|from) %location% (to|and) %location% (where|that match) \\[<.+>\\]",
+                "[the] [:parallel] (worldedit|fawe) (block|thing)[s] [at] %locations% (where|that match) \\[<.+>\\]",
+                "[the] [:parallel] (worldedit|fawe) (block|thing)[s] [at] %locations%"
             )
             if (!ParserInstance.isRegistered(InputData::class.java))
                 ParserInstance.registerData(InputData::class.java) { InputData(ParserInstance.get()) }
@@ -125,17 +127,21 @@ class ExprBlocks : SimpleExpression<Block>(), InputSource {
         if (change == ChangeMode.SET) arrayOf(BlockData::class.java) else null
 
     override fun change(event: Event?, delta: Array<out Any?>?, mode: ChangeMode) {
+        var blockData = delta?.get(0) as BlockData
         CompletableFuture.supplyAsync {
             val world: BukkitWorld = if (locations != null) BukkitWorld(locations!!.getArray(event).first().world) // Properly handled in iterator
             else {
                 BukkitWorld(location1!!.getSingle(event)?.world ?: return@supplyAsync)
             }
-            val blockData = delta?.get(0) as BlockData
             val editSession = WorldEdit.getInstance().newEditSessionBuilder().world(world).build()
             val blocks = iterator(event)?.asSequence()?.map {
                 BlockVector3.at(it.location.blockX, it.location.blockY, it.location.blockZ)
             }?.toSet() ?: return@supplyAsync
-            editSession.setBlocks(blocks, BukkitAdapter.adapt(blockData))
+            if (blockData.material.isAir) {
+                editSession.setBlocks(blocks, BlockTypes.AIR)
+            } else {
+                editSession.setBlocks(blocks, BukkitAdapter.adapt(blockData))
+            }
             editSession.close()
         }
     }
