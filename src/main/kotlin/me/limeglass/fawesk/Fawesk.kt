@@ -6,12 +6,12 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Fawesk : JavaPlugin() {
 
-    override fun onEnable() {
-        Skript.registerAddon(this)
-            .loadClasses("me.limeglass.fawesk", "elements")
-            .setLanguageFileDirectory("lang")
+	override fun onEnable() {
+		Skript.registerAddon(this)
+			.loadClasses("me.limeglass.fawesk", "elements")
+			.setLanguageFileDirectory("lang")
 
-        DefaultClasses.register()
-    }
+		DefaultClasses.register()
+	}
 
 }
