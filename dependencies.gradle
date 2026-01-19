@@ -3,7 +3,7 @@
 ext {
     plugin_version = '2.4'
     spigot_version = '1.21.11-R0.2-SNAPSHOT'
-    worldedit_version = '7.4.0-SNAPSHOT'
+    worldedit_version = '8.0.0-SNAPSHOT'
     fawe_version = '1.55'
     skript_version = '2.11.2'
     kotlin_version = '2.2.21'
