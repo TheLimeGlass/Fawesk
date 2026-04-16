@@ -4,7 +4,7 @@ ext {
     plugin_version = '2.4'
     spigot_version = '26.1.2-R0.1-SNAPSHOT'
     worldedit_version = '8.0.0-SNAPSHOT'
-    fawe_version = '1.55'
+    fawe_version = '1.56'
     skript_version = '2.14.1'
     kotlin_version = '2.3.20'
 }
